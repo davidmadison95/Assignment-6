@@ -2,21 +2,7 @@ $(function() {
     var sliderWrapper = $("#slider");
     var sliderList = sliderWrapper.children("ul");
     var sliderItems = sliderList.children("li");
-    var buttons = sliderWrapper.children(".button");
-    
-    var animateSlider = function(direction, duration) {
-        sliderList.animate({
-            "margin-left": direction * -300 + "px"
-        }, duration);
-    };
-    
-    buttons.on("click", function() {
-        if($(this).hasClass("back")) {
-            animateSlider((($(this).hasClass("back")) ? "+" : "-"), 1000);
-        } else {
-            animateSlider((($(this).hasClass("back")) ? "+" : "-"), 1000);
-        }
-    });
+    var buttons = sliderWrapper.find(".button");
     
     var animateSlider = function(direction, duration) {
         if(direction == "+") {
@@ -31,7 +17,7 @@ $(function() {
     };
     
     var isAtStart = function() {
-        return parseInt(sliderList.css("margin-left"), 10) == 0;
+        return parseInt(sliderList.css("margin-left"), 10) >= 0;
     };
     
     var isAtEnd = function() {
@@ -44,12 +30,14 @@ $(function() {
     buttons.on("click", function() {
         var $this = $(this);
         var isBackBtn = $this.hasClass("back");
+        
         if(isBackBtn && isAtStart()) {
             return;
         }
         if(!isBackBtn && isAtEnd()) {
             return;
         }
+        
         animateSlider((isBackBtn) ? "+" : "-", 1000);
     });
 });
